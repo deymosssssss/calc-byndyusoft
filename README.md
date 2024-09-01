@@ -1,33 +1,35 @@
-# CalcByndyusoft
+## CalcByndyusoft
 
-<<<<<<< HEAD
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
-=======
 Это проект калькулятора с кастомным парсингом и расчетом математического выражения
 
-Проект сгенерирован с помощью [Angular CLI](https://github.com/angular/angular-cli) версии 16.2.14.
->>>>>>> 06b04e7 (edit: readme file)
+## Как запустить проект?
 
-## Development server
+1. Склонируйте проект
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```
+git clone https://github.com/deymosssssss/calc-byndyusoft.git
+```
 
-## Code scaffolding
+2. Перейдите в папку проекта
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+cd calc-byndyusoft
+```
 
-## Build
+3. Установите зависимости
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+npm i
+```
 
-## Running unit tests
+4. Запустить проект
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+npm run start
+```
 
-## Running end-to-end tests
+5. Запустить тесты
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+npm run test
+```
