@@ -12,7 +12,7 @@ export const schema: Button[] = [
   { type: ButtonType.CHAR, value: '7' },
   { type: ButtonType.CHAR, value: '8' },
   { type: ButtonType.CHAR, value: '9' },
-  { type: ButtonType.OPERATOR, priority: 2, display: 'x', inputValue: '*', eval: (num1, num2): number => num1 * num2 },
+  { type: ButtonType.OPERATOR, priority: 2, display: '*', inputValue: '*', eval: (num1, num2): number => num1 * num2 },
   { type: ButtonType.CHAR, value: '4' },
   { type: ButtonType.CHAR, value: '5' },
   { type: ButtonType.CHAR, value: '6' },

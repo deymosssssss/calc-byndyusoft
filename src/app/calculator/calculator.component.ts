@@ -9,16 +9,36 @@ import { Button, ButtonType, Char, Operator } from '../core/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatorComponent implements OnInit {
+  inputHistory = '';
+  inputValue = '';
+  controls = schema;
+  ButtonType = ButtonType;
+
+  ngOnInit(): void {
+    this.setOperators();
+  }
+
+  operatorList: { [key: string]: Operator } = {};
+  setOperators() {
+    (this.controls.filter((control) => control.type === ButtonType.OPERATOR) as Operator[]).forEach(
+      (operator) => (this.operatorList[operator.display] = operator),
+    );
+  }
+
   onButtonClick(button: Button) {
-    if (this.isCharButton(button)) {
-      this.inputValue = this.inputValue === '0' ? button.value : this.inputValue + button.value;
-    } else if (this.isOperatorButton(button)) {
-      this.inputValue += button.inputValue;
-    } else if (button.type === ButtonType.EQUAL) {
-      this.calculateResult();
-    } else if (button.type === ButtonType.CLEAR) {
-      this.clearInput();
-    }
+    button.type === ButtonType.CHAR && (this.inputValue += button.value);
+    button.type === ButtonType.OPERATOR && (this.inputValue += button.inputValue);
+    button.type === ButtonType.CLEAR && this.clearInput();
+    button.type === ButtonType.CLEAR_ONE && this.clearLastChar();
+    button.type === ButtonType.EQUAL && this.calculateResult();
+  }
+
+  clearInput() {
+    this.inputHistory = '';
+    this.inputValue = '';
+  }
+  clearLastChar() {
+    this.inputValue = this.inputValue.slice(0, -1);
   }
   calculateResult() {
     try {
@@ -29,21 +49,6 @@ export class CalculatorComponent implements OnInit {
     } catch (error) {
       this.inputValue = 'Error';
     }
-  }
-  clearInput() {
-    this.inputHistory = '';
-    this.inputValue = '';
-  }
-  clearLastChar() {
-    this.inputValue = this.inputValue.slice(0, -1);
-  }
-  controls = schema;
-  ButtonType = ButtonType;
-  inputHistory = '';
-  inputValue = '';
-
-  ngOnInit(): void {
-    this.setOperators();
   }
 
   stringToArr(str: string) {
@@ -101,13 +106,6 @@ export class CalculatorComponent implements OnInit {
     return result;
   }
 
-  operatorList: { [key: string]: Operator } = {};
-
-  setOperators() {
-    this.controls.filter((control) => control.type === ButtonType.OPERATOR).forEach((operator) => (this.operatorList[operator.display!] = operator));
-    console.log(this.controls.filter((control) => control.type === ButtonType.OPERATOR));
-  }
-
   evalMathExpression(arr: any[]) {
     let maxPriority = 0;
 
@@ -118,7 +116,6 @@ export class CalculatorComponent implements OnInit {
 
       for (let i = 1; i < arr.length; i += 2) {
         if (arr[i].priority === maxPriority) {
-          // const result = this.evalSingleExpression(arr[i].operator, arr[i - 1], arr[i + 1]);
           const result = this.operatorList[arr[i].operator].eval(arr[i - 1], arr[i + 1]);
 
           arr.splice(i - 1, 3);
@@ -126,15 +123,15 @@ export class CalculatorComponent implements OnInit {
           break;
         }
       }
-      maxPriority = 0; // Reset maxPriority after each iteration
+      maxPriority = 0;
     }
 
     return arr[0];
   }
+
   isCharButton(button: Button): button is Char {
     return button.type === ButtonType.CHAR;
   }
-
   isOperatorButton(button: Button): button is Operator {
     return button.type === ButtonType.OPERATOR;
   }
