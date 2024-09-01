@@ -62,8 +62,6 @@ export class CalculatorComponent implements OnInit {
   calculateResult() {
     try {
       const expressionArray = this.stringToArr(this.inputValue);
-      console.log(this.inputValue);
-      console.log(JSON.stringify(expressionArray));
       const result = this.evalMathExpression(expressionArray);
       this.inputHistory = this.inputValue;
       this.inputValue = result.toString();
