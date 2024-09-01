@@ -1,6 +1,12 @@
 # CalcByndyusoft
 
+<<<<<<< HEAD
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+=======
+Это проект калькулятора с кастомным парсингом и расчетом математического выражения
+
+Проект сгенерирован с помощью [Angular CLI](https://github.com/angular/angular-cli) версии 16.2.14.
+>>>>>>> 06b04e7 (edit: readme file)
 
 ## Development server
 

@@ -1,27 +1,16 @@
 <div class="display">
-  <div class="history">20x80x0,5</div>
-  <div class="input">800</div>
+  <div class="history">{{ inputHistory }}</div>
+  <div class="input">{{ inputValue || "0" }}</div>
 </div>
 <div class="br"></div>
 <div class="controls">
-  <div class="control">C</div>
-  <div class="control">√</div>
-  <div class="control">%</div>
-  <div class="control">/</div>
-  <div class="control">7</div>
-  <div class="control">8</div>
-  <div class="control">9</div>
-  <div class="control">x</div>
-  <div class="control">4</div>
-  <div class="control">5</div>
-  <div class="control">6</div>
-  <div class="control">-</div>
-  <div class="control">1</div>
-  <div class="control">2</div>
-  <div class="control">3</div>
-  <div class="control">+</div>
-  <div class="control">00</div>
-  <div class="control">0</div>
-  <div class="control">,</div>
-  <div class="control _white">=</div>
+  <div *ngFor="let control of controls" class="control" (click)="onButtonClick(control)">
+    <ng-container [ngSwitch]="control.type">
+      <ng-container *ngSwitchCase="ButtonType.CLEAR">C</ng-container>
+      <ng-container *ngSwitchCase="ButtonType.CLEAR_ONE">⌫</ng-container>
+      <ng-container *ngSwitchCase="ButtonType.CHAR">{{ isCharButton(control) && control.value }}</ng-container>
+      <ng-container *ngSwitchCase="ButtonType.EQUAL">=</ng-container>
+      <ng-container *ngSwitchCase="ButtonType.OPERATOR">{{ isOperatorButton(control) && control.display }}</ng-container>
+    </ng-container>
+  </div>
 </div>
