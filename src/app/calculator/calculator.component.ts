@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { schema } from '../core/schema';
 import { Button, ButtonType, Char, Operator } from '../core/types';
 
@@ -13,15 +13,42 @@ export class CalculatorComponent implements OnInit {
   inputValue = '';
   controls = schema;
   ButtonType = ButtonType;
+  allowedKeys: Set<string> = new Set();
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.clearInput();
+      event.preventDefault();
+    } else if (this.allowedKeys.has(event.key)) {
+      this.inputValue += event.key;
+      event.preventDefault(); // Prevent default behavior if necessary
+    } else if (event.key === 'Enter') {
+      this.calculateResult();
+      event.preventDefault();
+    } else if (event.key === 'Backspace') {
+      this.clearLastChar();
+      event.preventDefault();
+    }
+  }
 
   ngOnInit(): void {
     this.setOperators();
+    this.initializeAllowedKeys();
+  }
+
+  initializeAllowedKeys() {
+    this.controls.forEach((control) => {
+      if (control.type === ButtonType.CHAR || control.type === ButtonType.OPERATOR) {
+        this.allowedKeys.add(control.value);
+      }
+    });
   }
 
   operatorList: { [key: string]: Operator } = {};
   setOperators() {
     (this.controls.filter((control) => control.type === ButtonType.OPERATOR) as Operator[]).forEach(
-      (operator) => (this.operatorList[operator.display] = operator),
+      (operator) => (this.operatorList[operator.value] = operator),
     );
   }
 
@@ -43,6 +70,8 @@ export class CalculatorComponent implements OnInit {
   calculateResult() {
     try {
       const expressionArray = this.stringToArr(this.inputValue);
+      console.log(this.inputValue);
+      console.log(JSON.stringify(expressionArray));
       const result = this.evalMathExpression(expressionArray);
       this.inputHistory = this.inputValue;
       this.inputValue = result.toString();
@@ -69,7 +98,7 @@ export class CalculatorComponent implements OnInit {
         result.push(str[i]);
       }
       if (str[i] === '(') {
-        if (num) {
+        if (num || str[i - 1] === ')') {
           result.push(+num);
           num = '';
           result.push('*');
@@ -90,8 +119,8 @@ export class CalculatorComponent implements OnInit {
     let priority = 0;
 
     for (let i = 0; i < result.length; i++) {
-      if (result[i] === '(') priority++;
-      if (result[i] === ')') priority--;
+      if (result[i] === '(') priority += 100;
+      if (result[i] === ')') priority -= 100;
 
       if (this.operatorList[result[i] as string]) {
         result[i] = {

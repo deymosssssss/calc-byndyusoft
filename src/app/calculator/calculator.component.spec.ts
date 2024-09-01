@@ -21,7 +21,7 @@ describe('CalculatorComponent', () => {
     fixture.detectChanges();
 
     charButton = { type: ButtonType.CHAR, value: '5' };
-    operatorButton = { type: ButtonType.OPERATOR, priority: 1, display: '+', inputValue: '+', eval: (num1: number, num2: number) => num1 + num2 };
+    operatorButton = { type: ButtonType.OPERATOR, priority: 1, value: '+', inputValue: '+', eval: (num1: number, num2: number) => num1 + num2 };
     clearButton = { type: ButtonType.CLEAR };
     clearOneButton = { type: ButtonType.CLEAR_ONE };
   });

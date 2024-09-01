@@ -10,7 +10,7 @@
       <ng-container *ngSwitchCase="ButtonType.CLEAR_ONE">⌫</ng-container>
       <ng-container *ngSwitchCase="ButtonType.CHAR">{{ isCharButton(control) && control.value }}</ng-container>
       <ng-container *ngSwitchCase="ButtonType.EQUAL">=</ng-container>
-      <ng-container *ngSwitchCase="ButtonType.OPERATOR">{{ isOperatorButton(control) && control.display }}</ng-container>
+      <ng-container *ngSwitchCase="ButtonType.OPERATOR">{{ isOperatorButton(control) && control.value }}</ng-container>
     </ng-container>
   </div>
 </div>
