@@ -17,19 +17,11 @@ export class CalculatorComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.clearInput();
-      event.preventDefault();
-    } else if (this.allowedKeys.has(event.key)) {
-      this.inputValue += event.key;
-      event.preventDefault(); // Prevent default behavior if necessary
-    } else if (event.key === 'Enter') {
-      this.calculateResult();
-      event.preventDefault();
-    } else if (event.key === 'Backspace') {
-      this.clearLastChar();
-      event.preventDefault();
-    }
+    event.key === 'Escape' && this.clearInput();
+    event.key === 'Enter' && this.calculateResult();
+    event.key === 'Backspace' && this.clearLastChar();
+    this.allowedKeys.has(event.key) && (this.inputValue += event.key);
+    event.preventDefault();
   }
 
   ngOnInit(): void {

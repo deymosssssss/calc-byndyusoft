@@ -1,8 +1,10 @@
 :host {
   width: 540px;
-  background: linear-gradient(to bottom right, #29528f, #3b77d1);
-  border-radius: 25px;
   padding: 50px 20px 20px 20px;
+  border-radius: 25px;
+
+  background: linear-gradient(to bottom right, #29528f, #3b77d1);
+
   display: flex;
   flex-direction: column;
   font-family: var(--g-font);
